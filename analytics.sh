@@ -4,7 +4,7 @@
 echo "Mysql client installing..."
 # sudo apt update -qq && apt install -qq -y mysql-client-8.0 unzip
 sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
-sudo yum install mysql-community-client
+sudo yum install -y mysql-community-client
 
 # Connect to MySQL server
 export MYSQL_PWD="yD5dMepw7XpwEWn8"
