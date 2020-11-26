@@ -61,21 +61,38 @@ read -p "Please Enter number of slaves: " NUM
 echo -e "building aws neccesary components..."
 python3 analytic_backend_setup.py
 
-echo -e "creating cluster..."
+# ami-068663a3c619dd892
+echo -e ""
+echo -e "Step 3 Creat Spark cluster:"
 flintrock launch very_good_reads_$NUM \
     --num-slaves $NUM \
-    --spark-version 2.4.4 \
-    --hdfs-version 2.7.7 \
+    --spark-version 2.4.7 \
+    --hdfs-version 2.9.2 \
     --ec2-key-name databaseproject-ec2-key \
     --ec2-identity-file databaseproject-ec2-key.pem \
-    --ec2-ami ami-068663a3c619dd892 \
-    --ec2-user ubuntu \
+    --ec2-ami ami-00b882ac5193044e4 \
+    --ec2-user ec2-user \
     --ec2-instance-type t2.medium \
     --ec2-region us-east-1 \
-    --hdfs-download-source https://apachemirror.sg.wuchna.com/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz \
     --install-hdfs \
-    --spark-download-source https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz \
     --install-spark
+#--hdfs-download-source https://archive.apache.org/dist/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz \
+#--spark-download-source https://apachemirror.sg.wuchna.com/spark/spark-2.4.7/spark-2.4.7-bin-without-hadoop.tgz \
+
+# flintrock launch very_good_reads_$NUM \
+#     --num-slaves $NUM \
+#     --spark-version 2.4.4 \
+#     --hdfs-version 2.7.7 \
+#     --ec2-key-name databaseproject-ec2-key \
+#     --ec2-identity-file databaseproject-ec2-key.pem \
+#     --ec2-ami ami-00b882ac5193044e4 \
+#     --ec2-user ec2-user \
+#     --ec2-instance-type t2.medium \
+#     --ec2-region us-east-1 \
+#     --hdfs-download-source https://apachemirror.sg.wuchna.com/hadoop/common/hadoop-3.3.0/hadoop-3.3.0.tar.gz \
+#     --install-hdfs \
+#     --spark-download-source https://apachemirror.sg.wuchna.com/spark/spark-3.0.1/spark-3.0.1-bin-hadoop3.2.tgz \
+#     --install-spark
 
 echo -e "setting up masternode..."
 python3 setup_masternodes.py very_good_reads_$NUM

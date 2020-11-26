@@ -8,16 +8,20 @@ import botocore
 import paramiko
 
 # functions for creating security group
+
+
 def create_security_group(security_group_name):
     response = ec2_client.describe_vpcs()
-    vpc_id = response.get('Vpcs', [{}])[0].get('VpcId', '') #Get VPC id of this aws account
+    vpc_id = response.get('Vpcs', [{}])[0].get(
+        'VpcId', '')  # Get VPC id of this aws account
 
     try:
         response = ec2_client.create_security_group(GroupName=security_group_name,
-                                             Description="Group7:This is for SUTD 50.0043 Big Data and Database project",
-                                             VpcId=vpc_id)
+                                                    Description="Group7:This is for SUTD 50.0043 Big Data and Database project",
+                                                    VpcId=vpc_id)
         security_group_id = response['GroupId']
-        pp.pprint('Security Group Created %s in vpc %s.' % (security_group_id, vpc_id))
+        pp.pprint('Security Group Created %s in vpc %s.' %
+                  (security_group_id, vpc_id))
 
         data = ec2_client.authorize_security_group_ingress(
             GroupId=security_group_id,
@@ -27,15 +31,15 @@ def create_security_group(security_group_name):
                  'ToPort': 80,
                  'IpRanges': [{'CidrIp': '0.0.0.0/0'}]},
                 {'IpProtocol': 'tcp',
-                 'FromPort': 22,      ## SSH
+                 'FromPort': 22,  # SSH
                  'ToPort': 22,
                  'IpRanges': [{'CidrIp': '0.0.0.0/0'}]},
                 {'IpProtocol': 'tcp',
-                 'FromPort': 27017,   ## MongoDB
+                 'FromPort': 27017,  # MongoDB
                  'ToPort': 27017,
                  'IpRanges': [{'CidrIp': '0.0.0.0/0'}]},
                 {'IpProtocol': 'tcp',
-                 'FromPort': 3306,    ## mySQL
+                 'FromPort': 3306,  # mySQL
                  'ToPort': 3306,
                  'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}
 
@@ -46,8 +50,10 @@ def create_security_group(security_group_name):
         pp.pprint(e)
 
 # function for creating a key-pair for EC2 instance
+
+
 def generate_key_pairs(key_name):  # Key_name needs to be unique *
-    outfile = open('{}.pem'.format(key_name),'w')
+    outfile = open('{}.pem'.format(key_name), 'w')
     key_pair = ec2.create_key_pair(KeyName=key_name)
     KeyPairOut = str(key_pair.key_material)
     outfile.write(KeyPairOut)
@@ -56,16 +62,16 @@ def generate_key_pairs(key_name):  # Key_name needs to be unique *
     os.system("chmod 400 {}.pem".format(key_name))
 
 
-
 # set up aws credentials and config
-key_id = "ASIAWETJUJFKO6AYWYZF"
-access_key = "cI5eyjEbpLTvLUNMv1wtjfBU6D2QHbzHnwVXO7FU"
-session_token = "FwoGZXIvYXdzEJ7//////////wEaDI2+RkZucmQlkBFvRCLKASwpIDqkwmdhEEkIZ1YIfDh23DK/5iCHF1x/jnnzTGVXW7SdjPW/0qTvuP+Uvlds3HGWeyGv83j3viLY5LdeqM6HtdaijxlxVb/Ef4TyLcsfL5eQj0AV3PhoKh0Of1kmnGVI33b+eWozR29eJuRZ8ojUK/vQzi/3YA9jkxBuO5pEfWB2wGqE4hZhSTG/v8Vvi8hVQq0RWLZIizJULhO31V/lM1a7roYC9H86gBVUbcMpalYrQatmmg8IqyqdBdbmawG+9i5gNk+IaKYo/rT+/QUyLaVJ1uCkh0xqAwEZWp82EOkmpnOVukck77jQvOBmT3AF+E3HsmXAZmvPNPfAog=="
+key_id = "ASIAWETJUJFKK7247TKW"
+access_key = "8Xn3XBCZZf7P9iEcZXARKf6f/FMuvvK+Zd6X2vx3"
+session_token = "FwoGZXIvYXdzEKP//////////wEaDE03xlGXx+Wn49zb8yLKAdAahPipznloX8Eo0pPhCiQM9Vr4I4mAifhsAZ2+Ji+BsRgY0PBXV+/8xBPTEE7hVZ6Pd6i7g3HzcC4hd7pyPEy7g05lutbxLWI4IIGXm5/pMfrQgGs7QHpt3VzO2M8iILaR+Ei4Y4z1QZuWmnH6vsco83W3UjTXUnyeqigOdqPTNuqLyLyIozFXra+5lTqdNn4VVwuUwxBOULeVkl2t5R5/t3XqCxMrHyqwHH8u9tnsTIVXwyUs5ZKZz7VsK/G1pSMTuLC3jNje1V4oqdH//QUyLZKqeuuYz9B0yZ13n3GFGt8RhGNzvX5/ktXgTSpVWski2Howhx1wkGtZWSFOzA=="
 
 region = "us-east-1"
 
-os.system("echo '[default]\naws_access_key_id = %s\naws_secret_access_key = %s\naws_session_token = %s' > ~/.aws/credentials"%(str(key_id),str(access_key),str(session_token)))
-os.system("echo '[default]\nregion = %s' > ~/.aws/config"%(str(region)))
+os.system("echo '[default]\naws_access_key_id = %s\naws_secret_access_key = %s\naws_session_token = %s' > ~/.aws/credentials" %
+          (str(key_id), str(access_key), str(session_token)))
+os.system("echo '[default]\nregion = %s' > ~/.aws/config" % (str(region)))
 
 # Connection automaticaly use saved aws credentials and config
 ec2 = boto3.resource('ec2')
@@ -73,9 +79,10 @@ ec2_client = boto3.client('ec2')
 
 # 1. Set up the security group
 print("\nStep 1 Set up Security Group:")
-security_group_name='DatabaseProject'
+security_group_name = 'DatabaseProject'
 try:
-    response = ec2_client.describe_security_groups(GroupNames=[security_group_name])
+    response = ec2_client.describe_security_groups(
+        GroupNames=[security_group_name])
     print("Security group: {} already exits".format(security_group_name))
 except ClientError as e:
     print("Creating a new security group named {}\n".format(security_group_name))
@@ -93,7 +100,6 @@ for key in keyPairs.get('KeyPairs'):
         key_not_exist = False
         print("key-pair: {} already exists.".format(key_name))
         break
-if key_not_exist :
+if key_not_exist:
     print("Generating a unique key for EC2 instances")
     generate_key_pairs(key_name)
-
