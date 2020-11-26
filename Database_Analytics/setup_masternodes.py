@@ -67,13 +67,17 @@ try:
 
     # loading data and running analytic scripts: to be done!
     print("downloading the analytic script...")
-    exe_cmd("wget https://github/***") # to be done
+    exe_cmd("https://raw.githubusercontent.com/LengSicong/DatabaseAnalytics/main/analytics.sh") # to be done
     print("running analytic scripts...")
     exe_cmd('chmod +x analytics.sh')
     exe_cmd('yes | ./analytics.sh')
 
     # disconnect and save the analysis result to local machine
     p_client.close()
+    copy_command_1 = 'scp -i {}.pem -o StrictHostKeyChecking=no ubuntu@'.format(key_name)+masternode_ip+':~/Pearson_correlation_output.txt .'
+    copy_command_2 = 'scp -i {}.pem -o StrictHostKeyChecking=no ubuntu@'.format(key_name)+masternode_ip+':~/tfidf_output.csv .'
+    os.system(copy_command_1)
+    os.system(copy_command_2)
 
 except Exception as e:
     print(e)
