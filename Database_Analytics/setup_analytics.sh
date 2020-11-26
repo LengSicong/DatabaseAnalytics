@@ -78,5 +78,5 @@ flintrock launch very_good_reads_$NUM \
     --install-spark
 
 echo -e "setting up masternode..."
-python3 setup_nodes.py very_good_reads_$NUM
+python3 setup_masternodes.py very_good_reads_$NUM
 
