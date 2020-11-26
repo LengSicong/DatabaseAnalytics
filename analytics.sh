@@ -51,12 +51,15 @@ sudo pip install numpy
 python -m pip --no-cache-dir install pyspark --user
 
 # Run analytic script
+hdfs dfs -rm -r /DBProject/correlation_output
+hdfs dfs -rm -r /DBProject/tfidf_output.txt
+sudo pip install findspark
 python correlation.py
 python tfidf.py
 
 # HDFS download
-hdfs dfs -get ./DBProject/tfidf_output.csv ./
-hdfs dfs -get ./DBProject/correlation_output.txt ./
+hdfs dfs -get /DBProject/tfidf_output ./
+hdfs dfs -get /DBProject/correlation_output ./
 
 
 

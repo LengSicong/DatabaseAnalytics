@@ -1,9 +1,14 @@
-import math
-from pyspark.sql import SQLContext
-from pyspark.mllib import *
-from pyspark.sql.types import StructType, StructField, StringType
-from pyspark.sql.functions import length
+import findspark
+findspark.init()
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import length
+from pyspark.sql.types import StructType, StructField, StringType
+from pyspark.mllib import *
+from pyspark.sql import SQLContext
+import math
+
+
+
 
 session = SparkSession.builder.appName("correlation").getOrCreate()
 sc = session.sparkContext
@@ -17,10 +22,11 @@ schema = StructType([
     StructField("rating", StringType(), True),
     StructField("summary", StringType(), True),
     StructField("reviewText", StringType(), True),
-    StructField("createdAt", StringType(), True)])
+    StructField("createdAt", StringType(), True),
+    StructField("updatedAt", StringType(), True)])
 
 reviews_df = session.read.csv(
-    "hdfs:///DBProject/review.csv", header=False, sep=",", schema=schema)
+    "hdfs:///DBProject/review.csv", header=False, sep="\t", schema=schema)
 
 # select needed columns for computing correlation
 # get the length of each review
@@ -65,4 +71,4 @@ correlation = (n * xy - x*y) / math.sqrt(n * x_squared - x*x) / \
 correlation
 
 output = sc.parallelize(['correlation', correlation])
-output.saveAsTextFile("hdfs://DBProject/correlation_output.txt")
+output.coalesce(1,True).saveAsTextFile("hdfs:///DBProject/correlation_output")

@@ -76,10 +76,10 @@ try:
 
     # disconnect and save the analysis result to local machine
     p_client.close()
-    copy_command_1 = 'scp -i {}.pem -o StrictHostKeyChecking=no ec2-user@'.format(
-        key_name)+masternode_ip+':~/Pearson_correlation_output.txt .'
-    copy_command_2 = 'scp -i {}.pem -o StrictHostKeyChecking=no ec2-user@'.format(
-        key_name)+masternode_ip+':~/tfidf_output.csv .'
+    copy_command_1 = 'scp -r -i {}.pem -o StrictHostKeyChecking=no ec2-user@'.format(
+        key_name)+masternode_ip+':~/correlation_output .'
+    copy_command_2 = 'scp -r -i {}.pem -o StrictHostKeyChecking=no ec2-user@'.format(
+        key_name)+masternode_ip+':~/tfidf_output .'
     os.system(copy_command_1)
     os.system(copy_command_2)
 

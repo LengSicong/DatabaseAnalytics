@@ -1,8 +1,12 @@
+import findspark
+findspark.init()
 from pyspark.sql import SQLContext
 from pyspark.mllib import *
 from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.ml.feature import CountVectorizer, IDF, Tokenizer
 from pyspark.sql import SparkSession
+
+
 
 session = SparkSession.builder.appName("tfidf").getOrCreate()
 sc = session.sparkContext
@@ -16,10 +20,11 @@ schema = StructType([
     StructField("rating", StringType(), True),
     StructField("summary", StringType(), True),
     StructField("reviewText", StringType(), True),
-    StructField("createdAt", StringType(), True)])
+    StructField("createdAt", StringType(), True),
+    StructField("updatedAt", StringType(), True)])
 
 reviews = session.read.csv(
-    "hdfs:///DBProject/review.csv", header=False, sep=",", schema=schema)
+    "hdfs:///DBProject/review.csv", header=False, sep="\t", schema=schema)
 # drop the reviews with NA reviewText
 reviews = reviews.na.drop(subset=["reviewText"])
 
@@ -58,6 +63,6 @@ output = rescaledData.select('reviewerID', 'asin', 'createdAt', 'features').rdd.
 
 output_df = session.createDataFrame(
     output, ['reviewerID', 'asin', 'createdAt', 'tfidf'])
-output_df.write.format("csv").save("hdfs:///DBProject/tfidf_output.csv")
+output_df.write.format("csv").save("hdfs:///DBProject/tfidf_output")
 output_df.show(1)
 session.stop()
