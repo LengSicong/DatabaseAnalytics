@@ -29,8 +29,8 @@ hdfs dfs -put review.tsv /DBProject/review.tsv
 hdfs dfs -put books.json /DBProject/books.json
 
 # Download Pyspark analytic scripts 
-wget 
-wget 
+wget https://raw.githubusercontent.com/LengSicong/DatabaseAnalytics/main/correlation.py
+wget https://raw.githubusercontent.com/LengSicong/DatabaseAnalytics/main/tfidf.py
 
 # Download pyspark
 echo "Pyspark downloading..."
@@ -44,8 +44,8 @@ python correlation.py
 python tfidf.py
 
 # HDFS download
-hdfs dfs -get tfidf_output.csv ./
-hdfs dfs -get ßcorrelation_output.txt ./
+hdfs dfs -get ./DBProject/tfidf_output.csv ./
+hdfs dfs -get ./DBProject/correlation_output.txt ./
 
 
 
