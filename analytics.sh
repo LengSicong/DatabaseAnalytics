@@ -7,9 +7,9 @@ sudo yum install https://dev.mysql.com/get/mysql80-community-release-el7-3.noarc
 sudo yum install -y mysql-community-client
 
 # Connect to MySQL server
+echo "Downloading review.csv"
 export MYSQL_PWD="yD5dMepw7XpwEWn8"
 # Download reviews from Mysql server 
-echo "Downloading review.tsv"
 mysql -u root -h 13.250.30.159 -e "select * from DBProject.review" | tail -n +2 > review.csv
 
 # Install Mongodb tools
@@ -34,9 +34,9 @@ echo "Downloading book.json"
 mongoexport --collection=books --out=books.json "mongodb://DBProjectUser:NcMcZDU9Sqw49nJT@54.255.154.236:27017/DBProject?authSource=DBProject"
 
 # HDFS upload
-echo "Uploading review.tsv & books.json to hdfs"
+echo "Uploading review.csv & books.json to hdfs"
 hdfs dfs -mkdir -p /DBProject
-hdfs dfs -put review.tsv /DBProject/review.tsv
+hdfs dfs -put review.csv /DBProject/review.csv
 hdfs dfs -put books.json /DBProject/books.json
 
 # Download Pyspark analytic scripts 
