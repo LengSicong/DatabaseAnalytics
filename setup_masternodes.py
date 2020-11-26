@@ -67,7 +67,7 @@ try:
 
     # loading data and running analytic scripts: to be done!
     print("downloading the analytic script...")
-    exe_cmd("https://raw.githubusercontent.com/LengSicong/DatabaseAnalytics/main/analytics.sh") # to be done
+    exe_cmd("wget https://raw.githubusercontent.com/LengSicong/DatabaseAnalytics/main/analytics.sh") 
     print("running analytic scripts...")
     exe_cmd('chmod +x analytics.sh')
     exe_cmd('yes | ./analytics.sh')

@@ -58,9 +58,9 @@ def generate_key_pairs(key_name):  # Key_name needs to be unique *
 
 
 # set up aws credentials and config
-key_id = "ASIA2AAJXSNIHHA6FLWI"
-access_key = "byk9nc2LVzbNxg3Qhb0eO5MY4/WmaVwruHCdGNu7"
-session_token = "FwoGZXIvYXdzEIP//////////wEaDETAv0dDBz0iydZ0gyLNAeVeKlDPvLCK8gaxQjlJFUsG7yBqoTPEgrTXkXmUNKFglAU1NikY1GJHxz7uJTk+eraTjhYKa6I8wLPOWyLLooJBM4IqIXkyAMFfQk8YmnFrRIP8oUZezG1IcaKR5+IVlFOEaxNFtHPN7ASeYtoLJR7vqyBJAg8CMF+/J7rW9bxi7DzTa9UJyaoJjPQdj9KWbVZwn4bbb3Lf7SOFYpE7QSemLrgpvpEbuKbxQMTdujJrBv/IIHjdtMXW3oqEAaS9h0Ytut5gktUjrICoUNUowMn4/QUyLQ1pCOZyrH8JeW9TnCQvvWs5eLK4Rmnghe316+JrTJRcXrWEV0qVmdUrxZsr6w=="
+key_id = "ASIAWETJUJFKO6AYWYZF"
+access_key = "cI5eyjEbpLTvLUNMv1wtjfBU6D2QHbzHnwVXO7FU"
+session_token = "FwoGZXIvYXdzEJ7//////////wEaDI2+RkZucmQlkBFvRCLKASwpIDqkwmdhEEkIZ1YIfDh23DK/5iCHF1x/jnnzTGVXW7SdjPW/0qTvuP+Uvlds3HGWeyGv83j3viLY5LdeqM6HtdaijxlxVb/Ef4TyLcsfL5eQj0AV3PhoKh0Of1kmnGVI33b+eWozR29eJuRZ8ojUK/vQzi/3YA9jkxBuO5pEfWB2wGqE4hZhSTG/v8Vvi8hVQq0RWLZIizJULhO31V/lM1a7roYC9H86gBVUbcMpalYrQatmmg8IqyqdBdbmawG+9i5gNk+IaKYo/rT+/QUyLaVJ1uCkh0xqAwEZWp82EOkmpnOVukck77jQvOBmT3AF+E3HsmXAZmvPNPfAog=="
 
 region = "us-east-1"
 
