@@ -40,12 +40,12 @@ sudo pip install numpy
 python -m pip --no-cache-dir install pyspark --user
 
 # Run analytic script
-python pearson_correlation.py
+python correlation.py
 python tfidf.py
 
 # HDFS download
 hdfs dfs -get tfidf_output.csv ./
-hdfs dfs -get Pearson_correlation_output.txt ./
+hdfs dfs -get ßcorrelation_output.txt ./
 
 
 
