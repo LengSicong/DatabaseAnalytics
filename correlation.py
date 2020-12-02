@@ -1,18 +1,15 @@
+import math
+from pyspark.sql import SQLContext
+from pyspark.mllib import *
+from pyspark.sql.types import StructType, StructField, StringType
+from pyspark.sql.functions import length
+from pyspark.sql import SparkSession
 import findspark
 findspark.init()
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import length
-from pyspark.sql.types import StructType, StructField, StringType
-from pyspark.mllib import *
-from pyspark.sql import SQLContext
-import math
-
-
 
 
 session = SparkSession.builder.appName("correlation").getOrCreate()
 sc = session.sparkContext
-
 
 schema = StructType([
     StructField("reviewId", StringType(), True),
@@ -35,6 +32,7 @@ reviews = reviews.withColumn("reviewLength", length(reviews.reviewText))
 
 # group reviews by asin and get average review length
 reviews_average = reviews.groupBy("asin").agg({'reviewLength': "mean"})
+reviews_average.show(1)
 
 # get the metadata from books.json
 books_df = session.read.json("hdfs:///DBProject/books.json")
@@ -71,4 +69,4 @@ correlation = (n * xy - x*y) / math.sqrt(n * x_squared - x*x) / \
 correlation
 
 output = sc.parallelize(['correlation', correlation])
-output.coalesce(1,True).saveAsTextFile("hdfs:///DBProject/correlation_output")
+output.coalesce(1, True).saveAsTextFile("hdfs:///DBProject/correlation_output")

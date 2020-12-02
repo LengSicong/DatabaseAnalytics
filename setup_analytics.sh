@@ -72,7 +72,7 @@ flintrock launch very_good_reads_$NUM \
     --ec2-identity-file databaseproject-ec2-key.pem \
     --ec2-ami ami-00b882ac5193044e4 \
     --ec2-user ec2-user \
-    --ec2-instance-type t2.medium \
+    --ec2-instance-type t2.xlarge \
     --ec2-region us-east-1 \
     --install-hdfs \
     --install-spark

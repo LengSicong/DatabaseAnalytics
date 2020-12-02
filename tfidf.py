@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
-from pyspark.ml.feature import CountVectorizer, IDF, Tokenizer
+from pyspark.ml.feature import CountVectorizer, IDF, Tokenizer, RegexTokenizer
 from pyspark.sql.types import StructType, StructField, StringType
 from pyspark.mllib import *
 from pyspark.sql import SQLContext
-from pyspark.sql.functions import udf, col
+from pyspark.sql.functions import udf, col, lower, regexp_replace
 import findspark
 findspark.init()
 
@@ -27,9 +27,12 @@ reviews = session.read.csv(
     "hdfs:///DBProject/review.csv", header=False, sep="\t", schema=schema)
 # drop the reviews with NA reviewText
 reviews = reviews.na.drop(subset=["reviewText"])
+reviews = reviews.select("reviewText", (lower(
+    regexp_replace('text', "[^a-zA-Z\\s]", ""))))
 
 # convert reviewText to words
-tokenizer = Tokenizer(inputCol="reviewText", outputCol="reviewWords")
+tokenizer = Tokenizer(inputCol="reviewText",
+                      outputCol="reviewWords")
 tokenized_reviews = tokenizer.transform(reviews)
 tokenized_reviews.show(1)
 
@@ -59,13 +62,13 @@ def save_as_string(vector):
     return words[:-2]
 
 
-output = rescaledData.select('reviewerID', 'asin', 'createdAt', 'features').rdd.map(
-    lambda x: [x[0], x[1], x[2], save_as_string(x[3])])
+output = rescaledData.select('reviewId', 'features').rdd.map(
+    lambda x: [x[0], save_as_string(x[1])])
 
 print(output.take(2))
 
 output_df = session.createDataFrame(
-    output, ['reviewerID', 'asin', 'createdAt', 'tfidf'])
+    output, ['reviewId', 'tfidf'])
 output_df.write.format("csv").save("hdfs:///DBProject/tfidf_output")
 
 session.stop()
